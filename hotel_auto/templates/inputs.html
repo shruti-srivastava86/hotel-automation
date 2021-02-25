@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+
+<p>You are visiting the inputs page...
+<form action="{% url 'hotel_auto:inputs'%}" method="post">
+   {% csrf_token %}
+  <label for="floor_count">FLOOR COUNT:</label>
+  <input type="text" id="floor_count" name="floor_count"><br><br>
+  <label for="main_corridor_count">MAIN CORRIDOR PER FLOOR:</label>
+  <input type="text" id="main_corridor_count" name="main_corridor_count"><br><br>
+  <label for="sub_corridor_count">SUB CORRIDOR COUNT PER FLOOR:</label>
+  <input type="text" id="sub_corridor_count" name="sub_corridor_count"><br><br>
+  <input type="submit" value="Submit">
+</form>
+</p>
+{% endblock %}

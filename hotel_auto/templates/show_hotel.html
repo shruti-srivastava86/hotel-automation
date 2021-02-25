@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block content %}
+<p>You have created the default state...
+  <table>
+  {% for key,value in hotel.items %}
+    <tr></tr>
+    <tr>
+        <td align="center">{{key}}</td>
+    </tr>
+    <tr>
+        <td>
+            {% for k,v in value.items %}
+                <tr>
+                    <td>{{k}}</td>
+                    <td>
+                        {% for keys,values in v.items %}
+                            <td></td>
+                            <td>{{keys}} :</td>
+                            <td>
+                                {% if values %}
+                                ON
+                                {% else %}
+                                OFF
+                                {% endif %}
+                            </td>
+                        {% endfor %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </td>
+    </tr>
+  {% endfor %}
+  </table>
+</p>
+<br><br>
+<p>
+<table>
+    <td>
+        Start Moving....<br><br> Movement Detected In :
+      <form action="{% url 'hotel_auto:movement'%}" method="post">
+           {% csrf_token %}
+          <label for="floor_count">FLOOR :</label>
+          <select id="floor_id" name="floor_id">
+            <option value="%">---------</option>
+            {% for floor in floors_list %}
+            <option value="{{ floor}}">{{ floor }}</option>
+            {% endfor %}
+          </select>
+          <br><br>
+          <label for="main_corridor_count">MAIN CORRIDOR:</label>
+          <select id="main_corridor_id" name="main_corridor_id">
+            <option value="%">---------</option>
+            {% for main_corridor in main_corridor_list %}
+            <option value="{{ main_corridor}}">{{ main_corridor }}</option>
+            {% endfor %}
+          </select>
+          <br><br>
+          <label for="sub_corridor_count">SUB CORRIDOR:</label>
+          <select id="sub_corridor_id" name="sub_corridor_id">
+            <option value="%">---------</option>
+            {% for sub_corridor in sub_corridor_list %}
+            <option value="{{ sub_corridor}}">{{ sub_corridor }}</option>
+            {% endfor %}
+          </select>
+          <br><br>
+          <input type="submit" value="Submit">
+      </form>
+    </td>
+    <td width="100"></td>
+    <td>
+      No Motion Detected ....<br><br>
+      <form action="{% url 'hotel_auto:no_movement'%}" method="post">
+           {% csrf_token %}
+          <label for="floor_count">FLOOR :</label>
+          <select id="floor_ids" name="floor_ids">
+            <option value="%">---------</option>
+            {% for floor in valid_floors_list %}
+            <option value="{{ floor}}">{{ floor }}</option>
+            {% endfor %}
+          </select>
+          <br><br>
+          <label for="sub_corridor_count">SUB CORRIDOR:</label>
+          <select id="sub_corridor_ids" name="sub_corridor_ids">
+            <option value="%">---------</option>
+            {% for sub_corridor in valid_sub_corridor_list %}
+            <option value="{{ sub_corridor}}">{{ sub_corridor }}</option>
+            {% endfor %}
+          </select>
+          <br><br>
+          <input type="submit" value="Submit">
+      </form>
+        {% if alert %}
+            <script>alert("Invalid Combination of Floor and Sub Corridors")</script>
+        {% endif %}
+    </td>
+</table>
+</p>
+{% endblock %}
